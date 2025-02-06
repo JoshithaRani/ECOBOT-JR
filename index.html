@@ -1,12 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>ECOBOT</title>
-    <link rel="icon" type="image/x-icon" href="C:\Users\Harsha Vardhan\Pictures\Screenshots\Screenshot 2025-01-14 204913.png">
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Random Reward</title>
+    <title>ECOBOT</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -14,8 +11,8 @@
             padding: 50px;
             background-color: #f0f8ff;
         }
-        #reward {
-            font-size: 24px;
+        #reward, #redeem-section {
+            font-size: 20px;
             margin-top: 20px;
             color: #0078d7;
         }
@@ -27,9 +24,10 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            margin-top: 10px;
         }
         button:disabled {
-            background-color: #b0b0b0;
+            background-color: gray;
             cursor: not-allowed;
         }
         button:hover:not(:disabled) {
@@ -38,31 +36,54 @@
     </style>
 </head>
 <body>
-    <h1>Scan and Win!</h1>
+    <h1>SCAN AND WIN!</h1>
     <p>Click the button to reveal your reward:</p>
-    <button id="rewardButton" onclick="showReward()">Get Reward</button>
+    
+    <!-- Get Reward Button -->
+    <button id="reward-btn" onclick="showReward()">Get Reward</button>
     <div id="reward"></div>
+
+    <!-- Redeem Section (Initially Hidden) -->
+    <div id="redeem-section" style="display: none;">
+        <button id="redeem-btn" onclick="redeemReward()">Redeem</button>
+        <div id="redeem-info"></div>
+    </div>
 
     <script>
         const rewards = [
-            "10% Discount Coupon",
-            "Free Shipping",
-            "Buy 1 Get 1 Free Offer",
-            "Cashback worth 100Rs",
-            "Rs 2000 worth Gift Card",
-            "Free Product Sample",
-            "Better Luck Next Time"
-
+            { name: "10% Discount Coupon", brand: "A", code: "A10" },
+            { name: "Free Shipping", brand: "B", code: "FREEB" },
+            { name: "Buy 1 Get 1 Free", brand: "C", code: "MCD" },
+            { name: "Exclusive Premium Access", brand: "D", code: "PREMD" },
+            { name: "Rs500 Gift Card", brand: "E", code: "E500" },
+            { name: "Free Product Sample", brand: "F", code: "FREESAMP" },
+            { name: "Rs200 Cashback", brand: "G", code: "G200" }
         ];
 
+        let selectedReward = null; // Store selected reward
+
         function showReward() {
-            const randomReward = rewards[Math.floor(Math.random() * rewards.length)];
-            document.getElementById("reward").textContent = `🎉 Your reward is: ${randomReward}`;
+            // Disable "Get Reward" button after clicking
+            document.getElementById("reward-btn").disabled = true;
+
+            // Pick a random reward
+            selectedReward = rewards[Math.floor(Math.random() * rewards.length)];
             
-            // Disable the button after the first click
-            const button = document.getElementById("rewardButton");
-            button.disabled = true;
-            button.textContent = "Reward Claimed";
+            // Display reward text
+            document.getElementById("reward").textContent = `🎉 Your reward is: ${selectedReward.name}`;
+
+            // Show redeem section
+            document.getElementById("redeem-section").style.display = "block";
+        }
+
+        function redeemReward() {
+            if (selectedReward) {
+                document.getElementById("redeem-info").textContent = 
+                    `✅ Brand: ${selectedReward.brand} | Code: ${selectedReward.code}`;
+                
+                // Disable redeem button after clicking
+                document.getElementById("redeem-btn").disabled = true;
+            }
         }
     </script>
 </body>
